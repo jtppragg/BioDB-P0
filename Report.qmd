@@ -1,0 +1,128 @@
+---
+title: "Lab 0 -- Development Environment"
+author: "Student's Name and Surname"
+date: now
+execute:
+  echo: true
+  cache: false
+format:
+  html:
+    page-layout: full
+    toc: true
+    toc-location: body
+    toc-depth: 2
+---
+
+## Markdown
+
+Markdown is a simple markup language that allows you to format text quickly and readably.
+
+This is normal text.  
+You can write in **bold**, *italic*, or ***both at the same time***.
+
+You can also use ~~strikethrough text~~.
+
+This is a bullet list
+- Item one  
+- Item two  
+- Item three  
+
+This is a numbered list
+1. First step  
+1. Second step  
+1. Third step  
+
+It is also very easy to include a [link to a website](https://www.ehu.eus).
+
+And you can also embeb images in a similar way:
+
+![UPV/EHU logo](https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Ehu_logoa_1.jpg/330px-Ehu_logoa_1.jpg)
+
+## Mermaid
+
+To create an ER diagram with just entities and relationships:
+
+```{mermaid}
+erDiagram
+  Customer ||--o{ Order : places
+  Order ||--|{ LineItem : contains
+  Customer }|..|{ DeliveryAddress : uses
+```
+
+But you can also include attributes with their data types:
+
+```{mermaid}
+erDiagram
+    Customer ||--o{ Order : places
+    Customer {
+        string name
+        string custNumber
+        string sector
+    }
+    Order ||--|{ LineItem : contains
+    Order {
+        int orderNumber
+        string deliveryAddress
+    }
+    LineItem {
+        string productCode
+        int quantity
+        float pricePerUnit
+    }
+```
+
+End even evolve into a logical design including keys and comments:
+
+```{mermaid}
+erDiagram
+    Car ||--o{ NamedDriver : allows
+    Car {
+        string registrationNumber PK
+        string make
+        string model
+        string[] parts
+    }
+    Person ||--o{ NamedDriver : is
+    Person {
+        string driversLicense PK "The license #"
+        string(99) firstName "Only 99 characters are allowed"
+        string lastName
+        string phone UK
+        int age
+    }
+    NamedDriver {
+        string carRegistrationNumber PK, FK
+        string driverLicence PK, FK
+    }
+    Manufacturer only one to zero or more Car : makes
+```
+
+## SQL queries
+
+First, you should create a database connection:
+
+```{r}
+library(DBI)
+library(RMySQL)
+
+dbExam <- dbConnect(RMySQL::MySQL(),
+    dbname = "Exam",
+    host = "127.0.0.1",
+    port = 3306,
+    user = "student",
+    password = "sql")
+```
+
+Then, you can include as many SQL code chunks as needed:
+
+```{sql connection=dbExam}
+SHOW TABLES;
+```
+
+...
+
+Do not forget closing the connection when not needed anymore:
+
+```{r}
+dbDisconnect(dbExam)
+```
