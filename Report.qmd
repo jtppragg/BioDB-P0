@@ -15,6 +15,25 @@ format:
 
 ## Markdown
 
+This is a live **demo**.
+
+- item 1
+- item 2
+- item 3
+
+This is Tux:
+
+```c
+int a = 1;
+a = a +2;
+```
+
+```{bash}
+ls /home
+```
+
+
+
 Markdown is a simple markup language that allows you to format text quickly and readably.
 
 This is normal text.  
@@ -102,6 +121,8 @@ erDiagram
 First, you should create a database connection:
 
 ```{r}
+#| eval: false
+#| include: false
 library(DBI)
 library(RMySQL)
 
@@ -115,7 +136,9 @@ dbExam <- dbConnect(RMySQL::MySQL(),
 
 Then, you can include as many SQL code chunks as needed:
 
-```{sql connection=dbExam}
+```{sql}
+#| eval: false
+#| include: false
 SHOW TABLES;
 ```
 
@@ -124,5 +147,7 @@ SHOW TABLES;
 Do not forget closing the connection when not needed anymore:
 
 ```{r}
+#| eval: false
+#| include: false
 dbDisconnect(dbExam)
 ```
